@@ -1,2 +1,2 @@
-# AR Library
-This is a website for an AR Library! You can view it [here](Website.html)!
+# Game of Wolves
+Game of Wolves augmented  reality with ARKit! You can view it [here](Website.html)!
