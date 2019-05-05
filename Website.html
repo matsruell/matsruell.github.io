@@ -1,24 +1,30 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>html5 audio player on iPhone</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-audio::-internal-media-controls-download-button {
-    display:none;
-}
-audio::-webkit-media-controls-enclosure {
-    overflow:hidden;
-}
-audio::-webkit-media-controls-panel {
-    width: calc(100% + 33px);
-}  
-</style>
-</head>
+
 <body>
-<audio controls preload="auto" style="width:100%;">
-    <source src="http://www.soundjay.com/button/beep-07.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-</audio><br />
+<div class="col-lg-12 col-sm-12">
+    <div id="radio_player">
+        <div class="default-player">
+             <audio width="320" height="240" controls id="audio_player">
+                <source src="http://stream.radio.co/sedf8bacc9/listen" type="audio/mpeg">
+            </audio>
+        </div>
+
+        <div id="audioplayer">
+            <button id="pButton" class="pause"></button>
+            <div class="live">Live</div>
+            <div id="volume_control">
+                <label id="rngVolume_label" for="rngVolume">
+                    <i class="fa fa-volume-up" aria-hidden="true"></i>
+                </label>
+                <input type="range" id="rngVolume" min="0" max="1" step="0.01" value="0.5">
+            </div>
+            <div class="current-piece">
+                <div class="now-playing">Now playing:</div>
+                <script src="https://public.radio.co/embed/sedf8bacc9/song.js"></script>
+            </div>
+        </div>
+    </div>
+ </div>
 </body>
 </html>
