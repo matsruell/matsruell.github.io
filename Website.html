@@ -3,10 +3,17 @@
 
 
 <body>
-    <h1>Welcome to Game of Wolves</h1>
-<a href="lowpolywolf.usdz" rel="ar">
-      <img src="lowpolywolf.png" width=200>
-</a>
+<audio id="play" src="http://www.soundjay.com/button/beep-07.wav"></audio>
+
+<button onclick="playSound()">Play</button>
 </body>
+ 
+    
+<script>   
+function playSound () {
+    document.getElementById('play').play();
+}
+    
+</script>
 
 </html>
