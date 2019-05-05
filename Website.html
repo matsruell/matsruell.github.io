@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html>
 
+  <head>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+  </head>
 
-<body>
-<audio controls>
-<audio id="play" src="http://www.soundjay.com/button/beep-07.wav"></audio>
-</audio>
-
-</body>
- 
-   
+  <body>
+    <audio id="audio" src="http://www.soundjay.com/button/beep-07.wav" autostart="false" ></audio>
+    <a onclick="PlaySound()"><img src="http://ricklemon.co.uk/game/images/speaker.png" width="200px" /></a>
+    <script>
+    function PlaySound() {
+          var sound = document.getElementById("audio");
+          sound.play()
+      }
+    </script>
+  </body>
 
 </html>
