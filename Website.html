@@ -1,10 +1,49 @@
 <!DOCTYPE html>
 <html>
+<script src="gyronorm.complete.min.js"></script>
+<script src="kalman.min.js" type="text/javascript"></script>
 
-</head>
+
 <body>
-<audio controls preload="auto" style="width:100%;">
-<source src="http://www.soundjay.com/button/beep-03.mp3" type="audio/mpeg">
-</audio>
+
+<div>
+    <span>alpha</span>
+    <input type="text" id="do_alpha" disabled>
+</div>
+
+
+
+<script type="text/javascript">
+var args = {
+	frequency:1000,					// ( How often the object sends the values - milliseconds )
+	gravityNormalized:true,			// ( If the gravity related values to be normalized )
+	orientationBase:GyroNorm.GAME,		// ( Can be GyroNorm.GAME or GyroNorm.WORLD. gn.GAME returns orientation values with respect to the head direction of the device. gn.WORLD returns the orientation values with respect to the actual north direction of the world. )
+	decimalCount:2,					// ( How many digits after the decimal point will there be in the return values )
+	logger:null,					// ( Function to be called to log messages from gyronorm.js )
+	screenAdjusted:false			// ( If set to true it will return screen adjusted values. )
+};
+
+var gn = new GyroNorm();
+
+gn.init(args).then(function(){
+  gn.start(function(data){
+      $('#do_alpha').val(data.do.alpha);
+    //   $('#do_beta').val(data.do.beta);
+    //   $('#do_gamma').val(data.do.gamma);
+    //   $('#dm_x').val(data.dm.x);
+    //   $('#dm_y').val(data.dm.y);
+    //   $('#dm_z').val(data.dm.z);
+    //   $('#dm_gx').val(data.dm.gx);
+    //   $('#dm_gy').val(data.dm.gy);
+    //   $('#dm_gz').val(data.dm.gz);
+    //   $('#dm_alpha').val(data.dm.alpha);
+    //   $('#dm_beta').val(data.dm.beta);
+    //   $('#dm_gamma').val(data.dm.gamma);
+  });
+}).catch(function(e){
+  // Catch if the DeviceOrientation or DeviceMotion is not supported by the browser or device
+});
+
+</script>
 </body>
 </html>
