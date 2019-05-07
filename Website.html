@@ -36,7 +36,8 @@
     }
 
     var sphere = document.getElementById("sphere");
-
+    var kfX = new KalmanFilter();
+    var kfY = new KalmanFilter();
     if (window.DeviceMotionEvent != undefined) {
         window.ondevicemotion = function(e) {
 
@@ -59,8 +60,6 @@
         }
 
 
-        var kfX = new KalmanFilter();
-        var kfY = new KalmanFilter();
         setInterval( function() {
 
             vx2=vx1+(interval/1000)*(ax1+ax2)/2;
@@ -70,8 +69,8 @@
             dy2 = dy1+(ay2-ay1)*(vy1+vy2)/2;
 
 
-            document.getElementById("distanceX").innerHTML = dx2;
-            document.getElementById("distanceY").innerHTML = dy2;
+            document.getElementById("distanceX").innerHTML = kfX.filter(dx2);
+            document.getElementById("distanceY").innerHTML = kfY.filter(dy2);
 
             vx1 = vx2
             dx1 = dx2
