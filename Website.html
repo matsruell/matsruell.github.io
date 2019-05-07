@@ -1,50 +1,88 @@
 <!DOCTYPE html>
-<html>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="gyronorm.complete.min.js"></script>
-<script src="kalman.min.js" type="text/javascript"></script>
-
-
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Accelerometer  Test</title>
+</head>
 <body>
+<div id="content">
+    <h1>Accelerometer Javascript Test</h1>
+    <div id="sphere"></div>
+    <ul>
+        <li>acceleration x: <span id="accelerationX"></span>g</li>
+        <li>acceleration y: <span id="accelerationY"></span>g</li>
+        <li>acceleration z: <span id="accelerationZ"></span>g</li>
+        <li>rotation alpha: <span id="rotationAlpha"></span>degree</li>
+        <li>rotation beta: <span id="rotationBeta"></span>degree</li>
+        <li>rotation gamma: <span id="rotationGamma"></span>degree</li>
+        <li>distance x: <span id="distanceX"></span>m</li>
+        <li>distance y: <span id="distanceY"></span>m</li>
+        <button onclick="resetDistance()"> Reset Distance </button>
 
-<div>
-    <span>alpha</span>
-    <input type="text" id="do_alpha" disabled>
+    </ul>
+
 </div>
-
-
-
+<script src="kalman.min.js" type="text/javascript"></script>
 <script type="text/javascript">
-var args = {
-	frequency:250,					// ( How often the object sends the values - milliseconds )
-	gravityNormalized:true,			// ( If the gravity related values to be normalized )
-	orientationBase:GyroNorm.GAME,		// ( Can be GyroNorm.GAME or GyroNorm.WORLD. gn.GAME returns orientation values with respect to the head direction of the device. gn.WORLD returns the orientation values with respect to the actual north direction of the world. )
-	decimalCount:2,					// ( How many digits after the decimal point will there be in the return values )
-	logger:null,					// ( Function to be called to log messages from gyronorm.js )
-	screenAdjusted:false			// ( If set to true it will return screen adjusted values. )
-};
 
-var gn = new GyroNorm();
+    // Link to calculate distance
+    //https://physics.stackexchange.com/questions/36312/calculation-of-distance-from-measured-acceleration-vs-time?fbclid=IwAR3rP7BuuDrpfpgzdXPB4m-xsXKA68dxTx9uoGgZ0Vj36ZSQiZ9GNmW-8Ow
+    // gyronorm.js
+    var x = 0, y = 0, ax1 =0 ,ax2 =0, vx1 = 0, vx2 = 0, dx1 = 0, dx2 =0,ay1 =0 ,ay2 =0, vy1 = 0, vy2 = 0, dy1= 0, dy2 = 0;
+    var interval = 25;
 
-gn.init(args).then(function(){
-  gn.start(function(data){
-      $('#do_alpha').val(data.do.alpha);
-    //   $('#do_beta').val(data.do.beta);
-    //   $('#do_gamma').val(data.do.gamma);
-    //   $('#dm_x').val(data.dm.x);
-    //   $('#dm_y').val(data.dm.y);
-    //   $('#dm_z').val(data.dm.z);
-    //   $('#dm_gx').val(data.dm.gx);
-    //   $('#dm_gy').val(data.dm.gy);
-    //   $('#dm_gz').val(data.dm.gz);
-    //   $('#dm_alpha').val(data.dm.alpha);
-    //   $('#dm_beta').val(data.dm.beta);
-    //   $('#dm_gamma').val(data.dm.gamma);
-  });
-}).catch(function(e){
-  // Catch if the DeviceOrientation or DeviceMotion is not supported by the browser or device
-});
+    function resetDistance(){
+        x = 0;
+        y = 0;
+    }
+
+    var sphere = document.getElementById("sphere");
+
+    if (window.DeviceMotionEvent != undefined) {
+        window.ondevicemotion = function(e) {
+
+            document.getElementById("accelerationX").innerHTML = e.accelerationIncludingGravity.x;
+            document.getElementById("accelerationY").innerHTML = e.accelerationIncludingGravity.y;
+            document.getElementById("accelerationZ").innerHTML = e.accelerationIncludingGravity.z;
+
+            if ( e.rotationRate ) {
+                document.getElementById("rotationAlpha").innerHTML = e.rotationRate.alpha;
+                document.getElementById("rotationBeta").innerHTML = e.rotationRate.beta;
+                document.getElementById("rotationGamma").innerHTML = e.rotationRate.gamma;
+            }
+
+            ax1 = ax2
+            ax2 = e.accelerationIncludingGravity.x;
+
+            ay1 = ay2
+            ay2 = e.accelerationIncludingGravity.y;
+
+        }
+
+
+        var kfX = new KalmanFilter();
+        var kfY = new KalmanFilter();
+        setInterval( function() {
+
+            vx2=vx1+(interval)*(ax1+ax2)/2;
+            dx2 = dx1+(ax2-ax1)*(vx1+vx2)/2;
+
+            vy2=vy1+(interval)*(ay1+ay2)/2;
+            dy2 = dy1+(ay2-ay1)*(vy1+vy2)/2;
+
+
+            document.getElementById("distanceX").innerHTML = kfX.filter(dx2);
+            document.getElementById("distanceY").innerHTML = kfY.filter(dy2);
+
+            vx1 = vx2
+            dx1 = dx2
+
+            vy1 = vy2
+            dy1 = dy2
+
+        }, interval);
+    }
 
 </script>
+
 </body>
 </html>
