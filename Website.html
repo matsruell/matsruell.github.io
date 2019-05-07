@@ -63,10 +63,10 @@
         var kfY = new KalmanFilter();
         setInterval( function() {
 
-            vx2=vx1+(interval)*(ax1+ax2)/2;
+            vx2=vx1+(interval/1000)*(ax1+ax2)/2;
             dx2 = dx1+(ax2-ax1)*(vx1+vx2)/2;
 
-            vy2=vy1+(interval)*(ay1+ay2)/2;
+            vy2=vy1+(interval/1000)*(ay1+ay2)/2;
             dy2 = dy1+(ay2-ay1)*(vy1+vy2)/2;
 
 
