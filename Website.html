@@ -38,12 +38,13 @@
     var sphere = document.getElementById("sphere");
     var kfX = new KalmanFilter();
     var kfY = new KalmanFilter();
+    var kfZ = new KalmanFilter();
     if (window.DeviceMotionEvent != undefined) {
         window.ondevicemotion = function(e) {
 
-            document.getElementById("accelerationX").innerHTML = e.accelerationIncludingGravity.x;
-            document.getElementById("accelerationY").innerHTML = e.accelerationIncludingGravity.y;
-            document.getElementById("accelerationZ").innerHTML = e.accelerationIncludingGravity.z;
+            document.getElementById("accelerationX").innerHTML = kfX.filter(e.accelerationIncludingGravity.x);
+            document.getElementById("accelerationY").innerHTML = kfY.filter(e.accelerationIncludingGravity.y);
+            document.getElementById("accelerationZ").innerHTML = kfZ.filter(e.accelerationIncludingGravity.z);
 
             if ( e.rotationRate ) {
                 document.getElementById("rotationAlpha").innerHTML = e.rotationRate.alpha;
@@ -69,8 +70,8 @@
             dy2 = dy1+(ay2-ay1)*(vy1+vy2)/2;
 
 
-            document.getElementById("distanceX").innerHTML = kfX.filter(dx2);
-            document.getElementById("distanceY").innerHTML = kfY.filter(dy2);
+            document.getElementById("distanceX").innerHTML = dx2;
+            document.getElementById("distanceY").innerHTML = dy2;
 
             vx1 = vx2
             dx1 = dx2
