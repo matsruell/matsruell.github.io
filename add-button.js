@@ -11,6 +11,7 @@ AFRAME.registerComponent('add-button', {
             newElement.setAttribute('visible', 'false')
             newElement.setAttribute('scale', '0.0001 0.0001 0.0001')
             newElement.setAttribute('gltf-model', '#sandCastleModel2')
+            newElement.setAttribute('hold-drag');
             this.el.sceneEl.appendChild(newElement)
             
             
