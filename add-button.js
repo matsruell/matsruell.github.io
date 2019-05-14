@@ -10,7 +10,7 @@ AFRAME.registerComponent('add-button', {
             newElement.setAttribute('position', touchPoint)
             newElement.setAttribute('visible', 'false')
             newElement.setAttribute('scale', '0.0001 0.0001 0.0001')
-            newElement.setAttribute('obj-model', '#sandCastleModel')
+            newElement.setAttribute('gltf-model', '#sandCastleModel2')
             this.el.sceneEl.appendChild(newElement)
             
             
