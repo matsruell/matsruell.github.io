@@ -26,8 +26,6 @@ AFRAME.registerComponent('add-button', {
             })
           })
         }
-                 
-        addButton.addEventListener('click',addObject);
-        // addButton.removeEventListener('click',addObject);
+        addButton.onclick = addObject;
     }
  })
